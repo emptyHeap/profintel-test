@@ -148,7 +148,7 @@ export default class Field extends React.Component {
     for (let y = 0; y < size.y; y++) {
       let cells = [];
       for (let x = 0; x < size.x; x++) {
-        cells.push(<FieldCell key={x + y*size.y}>{`${x}:${y}`}</FieldCell>)
+        cells.push(<FieldCell key={x + y*size.y} />)
       }
       rows.push(<FieldRow key={y}>{cells}</FieldRow>);
     }
