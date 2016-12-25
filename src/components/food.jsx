@@ -1,14 +1,14 @@
 import React from 'react'
 import color from 'color'
 
-export default class Character extends React.Component {
+export default class Food extends React.Component {
   startAnimation(interval) {
     const {view} = this.state;
     const {amount} = this.props;
     const {multiplier} = this.state.animation;
     let {time} = this.state.animation;
 
-    setInterval(() => {
+    this.animationInterval = setInterval(() => {
         //animation math
         time += interval * multiplier;
         view.radius = Math.sqrt(amount)/2*Math.sin(time/120) + amount*1.4;
@@ -23,6 +23,9 @@ export default class Character extends React.Component {
           view
       });
     }, interval);
+  }
+  stopAnimation() {
+    clearInterval(this.animationInterval);
   }
   static get defaultProps() {
     return {
@@ -45,13 +48,16 @@ export default class Character extends React.Component {
       }
     }
   }
-  componentDidMount() {
+  componentWillMount() {
     this.startAnimation(25);
+  }
+  componentWillUnmount() {
+    this.stopAnimation();
   }
   render() {
     const {view} = this.state;
     return (
-      <svg>
+      <svg style={{zIndex: 11}} viewBox="0 0 60 60" width="100%" height="100%">
         <g>
           <ellipse
              stroke="#000000"
@@ -59,8 +65,8 @@ export default class Character extends React.Component {
              strokeLinecap="butt"
              fill={view.color}
              id="path3469"
-             cx="26"
-             cy="51"
+             cx="30"
+             cy="30"
              rx={view.radius}
              ry={view.radius} />
         </g>

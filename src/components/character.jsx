@@ -1,15 +1,20 @@
 import React from 'react'
 
 export default class Character extends React.Component {
+  static get defaultProps() {
+    return {
+      consumed: 0,
+    }
+  }
   startAnimation(interval) {
     const {view} = this.state;
     let {time, multiplier} = this.state.animation;
     this.animationInterval = setInterval(() => {
         //animation math
         time += interval * multiplier;
-        view.leftEyeRadius = 3*Math.sin(time/700) + 4;
-        view.rightEyeRadius = 1.6*Math.cos(time/700) + 3;
-        view.mouthRadius = 6*Math.sin(time/120) + 10;
+        view.leftEyeRadius = 3*Math.sin(time/70) + 4;
+        view.rightEyeRadius = 1.6*Math.cos(time/70) + 3;
+        view.mouthRadius = 4*Math.sin(time/320) + 5;
       this.setState({
           view
       });
@@ -17,6 +22,14 @@ export default class Character extends React.Component {
   }
   stopAnimation() {
     clearInterval(this.animationInterval);
+  }
+  grow(amount) {
+    let {consumed} = this.state;
+    consumed += amount;
+
+    this.setState({
+        consumed
+    });
   }
   constructor(props) {
     super(props)
@@ -36,9 +49,22 @@ export default class Character extends React.Component {
   }
   render() {
     const {view} = this.state;
+    const {consumed} = this.props;
+    const size = (consumed + 12)/60*100;
+
     return (
-      <svg>
+      <svg style={{overflow: 'visible', zIndex: 10}} viewBox="0 0 60 60" width={`${size}%`} height={`${size}%`}>
         <g>
+          <ellipse
+             stroke="#000000"
+             strokeWidth="1.5"
+             strokeLinecap="butt"
+             fill="#669f35"
+             id="path3467"
+             cx="30"
+             cy="30"
+             rx="29"
+             ry="29" />
           <ellipse
              stroke="#000000"
              strokeWidth="1.5"
@@ -48,18 +74,7 @@ export default class Character extends React.Component {
              cx="47"
              cy="34"
              rx={view.mouthRadius}
-             ry={view.mouthRadius}>
-            <ellipse
-               stroke="#000000"
-               strokeWidth="1.5"
-               strokeLinecap="butt"
-               fill="#f63f35"
-               id="path3467"
-               cx="47"
-               cy="34"
-               rx={view.rightEyeRadius}
-               ry={view.rightEyeRadius} />
-             </ellipse>
+             ry={view.mouthRadius} />
           <ellipse
              stroke="#000000"
              strokeWidth="1.5"
@@ -80,6 +95,7 @@ export default class Character extends React.Component {
              cy="11.7"
              rx={view.leftEyeRadius}
              ry={view.leftEyeRadius} />
+
         </g>
       </svg>
     )

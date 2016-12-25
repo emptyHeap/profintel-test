@@ -1,12 +1,10 @@
 import React from "react"
-import Devourer from "./components/devourer.jsx"
-import Field from "./components/field.jsx"
-import Food from "./components/food.jsx"
 import ReactDOM from "react-dom"
+
+import Field from "~/components/field.jsx"
 
 let field;
 function handleKeyDown(event) {
-  console.log(event);
   switch (event.code) {
     case 'ArrowLeft':
       field.moveCharacter({x: -1, y: 0});
@@ -25,6 +23,7 @@ function handleKeyDown(event) {
 document.onkeydown = handleKeyDown;
 
 ReactDOM.render(
-  <Field size={{x:15, y:15}} ref={(_field) => field = _field} />,
+  <Field size={{x:5, y:5}} ref={(_field) => field = _field} />,
   document.getElementById('root')
 )
+
